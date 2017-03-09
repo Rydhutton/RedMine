@@ -8,7 +8,7 @@ def TrainOnData():
 	n_files_detected = 0
 	n_samples = 0
 	print("...found "+str(n_files_detected)+" data files for training")
-	print("...loaded "+str(n_samples)+" data samples")
+	print("...loaded "+str(n_samples)+" data samples from files")
 	print("Complete.")
 	
 def TestOnData():
@@ -19,7 +19,7 @@ def TestOnData():
 	n_files_detected = 0
 	n_samples = 0
 	print("...found "+str(n_files_detected)+" data files for testing")
-	print("...loaded "+str(n_samples)+" data samples")
+	print("...loaded "+str(n_samples)+" data samples from files")
 	print("...SVM accuracy = "+str(accuracy))
 	print("Complete.")
 
