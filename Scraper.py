@@ -8,7 +8,7 @@ def StartCollectingData():
 	#Note : data should be stored in files "data1", "data2", "data3", etc ... should a crash occur, not all data is lost
 	#TO-DO !!!
 	print("Starting in data-mine mode [press Ctrl+C to stop]...")
-	incomplete_samples = 0
+	incomplete_samples = 0 # since samples require data like '10 min', '20 min', '2 hours', some samples will be marked 'incomplete'
 	complete_samples = 0
 	time_elapsed = 0
 	while(True):
