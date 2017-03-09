@@ -5,16 +5,16 @@ import sys
 import Scraper
 import SVM
 
-def main():
-	"""	
-	This class serves as the entry point.
-	Launching in different modes:
-		"py Main.py -mine"
-		"py Main.py -train"
-		"py Main.py -test"
-	Note: Before a section of code, put [yourname] so that we can keep track of how much work each person is doing
-	"""
+"""	
+[harrison] This class serves as the entry point.
+Launching in different modes:
+	"py Main.py -mine"
+	"py Main.py -train"
+	"py Main.py -test"
+Note: Before a section of code, put [yourname] so that we can keep track of how much work each person is doing
+"""
 
+def main():
 	# [harrison] determine launch context
 	if (sys.argv[1] == "-mine"):
 		do_MineData()
