@@ -4,9 +4,9 @@
 import sys
 
 def main():
-	
 	"""	
-	How to launch in different modes:
+	This class serves as the entry point.
+	Launching Main in different modes:
 		"py Main.py -mine"
 		"py Main.py -train"
 		"py Main.py -test"
