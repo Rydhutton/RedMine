@@ -17,25 +17,13 @@ Note: Before a section of code, put [yourname] so that we can keep track of how 
 def main():
 	# [harrison] determine launch context
 	if (sys.argv[1] == "-mine"):
-		do_MineData()
+		Scraper.StartCollectingData()
 	elif (sys.argv[1] == "-train"):
-		do_TrainOnCollectedData()
+		SVM.TrainOnData()
 	elif (sys.argv[1] == "-test"):
-		do_TestOnCollectedData()
+		SVM.TestOnData()
 	else:
 		print("unknown mode")
-	
-def do_MineData():
-	Scraper.StartCollectingData()
-	return
-	
-def do_TrainOnCollectedData():
-	SVM.TrainOnData()
-	return
-	
-def do_TestOnCollectedData():
-	SVM.TestOnData()
-	return
 	
 if __name__ == "__main__":
     main()
