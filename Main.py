@@ -10,7 +10,6 @@ def main():
 		"py Main.py -mine"
 		"py Main.py -train"
 		"py Main.py -test"
-		
 	Note: Before a section put '#yourname', so we can keep track of how much work each person is doing
 	"""
 
