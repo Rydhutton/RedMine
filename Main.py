@@ -16,7 +16,9 @@ Note: Before a section of code, put [yourname] so that we can keep track of how 
 
 def main():
 	# [harrison] determine launch context
-	if (sys.argv[1] == "-mine"):
+	if (len(sys.argv) == 0):
+		print("to use, type 'py Main.py <command>'. Commands include -mine or -train or -test")
+	elif (sys.argv[1] == "-mine"):
 		Scraper.StartCollectingData()
 	elif (sys.argv[1] == "-train"):
 		SVM.TrainOnData()
