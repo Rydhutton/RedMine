@@ -6,7 +6,7 @@ import sys
 def main():
 	"""	
 	This class serves as the entry point.
-	Launching Main in different modes:
+	Launching in different modes:
 		"py Main.py -mine"
 		"py Main.py -train"
 		"py Main.py -test"
