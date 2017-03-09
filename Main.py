@@ -24,14 +24,28 @@ def main():
 		print("unknown mode")
 	
 def do_MineData():
+	"""
+	In this mode, you leave your computer to collect data (possibly over several days)
+	Note : data should be stored in files "data1", "data2", "data3", etc ... so that if a crash occurs, not all data is lost
+	This should make calls to Scraper.py
+	"""
 	print("mine")
 	return
 	
 def do_TrainOnCollectedData():
+	"""
+	In this mode, any text files "data1", "data2", "data3", etc, are used to train the SVM.
+	This should make calls to SVM.py
+	"""
 	print("train")
 	return
 	
 def do_TestOnCollectedData():
+	"""
+	In this mode, the previously trained SVM should attempt to classify data files "test1", "test2", "test3", etc.. using the trained SVM
+	It should print statistics like accuracy, etc.
+	This should make calls to SVM.py
+	"""
 	print("test")
 	return
 	
