@@ -2,14 +2,17 @@
 # -*- coding: utf-8 -*-
 
 import time
+import praw
+
+# we are using "PRAW" as an API to collect reddit data
+# you can install it simply by typing "pip install praw"
 
 def StartCollectingData():	
-	#In this mode, you leave your computer to collect data (possibly over several days)
-	#Note : data should be stored in files "data1", "data2", "data3", etc ... should a crash occur, not all data is lost
-	#TO-DO !!!
 	print("Starting in data-mine mode [press Ctrl+C to stop].")
+	
 	incomplete_samples = 0 # since samples require data like '10 min', '20 min', '2 hours', some samples will be marked 'incomplete'
 	complete_samples = 0
+	
 	time_elapsed = 0
 	while(True):
 		time_elapsed = time_elapsed+1

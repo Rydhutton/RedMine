@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# we are using "PRAW" as an API to collect reddit data
-# you can install it simply by typing "pip install praw"
-
 def TrainOnData():
 	print("Training SVM on collected data.")
 	n_files_detected = 0
