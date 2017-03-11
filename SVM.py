@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# we are using "PRAW" as an API to collect reddit data
+# you can install it simply by typing "pip install praw"
+
 def TrainOnData():
-	#In this mode, any text files "data1", "data2", "data3", etc, are used to train the SVM.
-	#TO-DO !!!
 	print("Training SVM on collected data.")
 	n_files_detected = 0
 	n_samples = 0
@@ -12,8 +13,6 @@ def TrainOnData():
 	print("Complete.")
 	
 def TestOnData():
-	#In this mode, the previously trained SVM should attempt to classify data files "test1", "test2", "test3", etc.. using the trained SVM
-	#TO-DO !!!
 	print("Running SVM on test data.")
 	accuracy = 0.0
 	n_files_detected = 0
