@@ -18,6 +18,7 @@ n_reevals = 5
 interval = 5 #5.0 * 60
 queues = []
 n_saved_to_disk = 0
+t = 0
 
 def StartCollectingData():	
 
@@ -34,7 +35,6 @@ def StartCollectingData():
 	#TODO, a thread for saving data to text files
 	
 	# [harrison] Control loop
-	t = 0
 	while True:
 		t += 1
 		p = ''
