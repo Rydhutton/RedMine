@@ -29,17 +29,23 @@ def StartCollectingData():
 		if (i != len(subreddits_to_monitor)-1):
 			cct = cct+'+'
 	to_stream = reddit.subreddit(cct)
-		
+	
+	reeval = 60.0 * 15 # 15 minutes
+	
 	for P in to_stream.stream.submissions():
 		
 		# [harrison] create new instance for new post, put in incomplete_queue
 		d = { }
-		d['timestamp'] = time.time()
+		d['ts'] = time.time()
 		d['pid'] = P.id
 		queue_incomplete.append(d)
 		
 		# [harrison] check if old data needs to be updated
-		
+		if (len(queue_incomplete) != 0):
+			while(queue_incomplete[0]['ts']+reeval < time.time()):
+				queue_complete.append( queue_incomplete[0] )
+				del queue_incomplete[0]
+				if (len(queue_incomplete) == 0): break
 		
 		# [harrison] debug
 		print('\n'+str((P.title).encode('utf-8'))+' [id='+P.id+']')
