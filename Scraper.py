@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import time
 from time import gmtime, strftime
 import praw
 
@@ -23,16 +24,18 @@ def StartCollectingData():
 	queue_incomplete_samples = []
 	
 	for submission in subreddit.stream.submissions():
-		# log new posts
+		
+		# create new instances for new posts, put in incomplete_queue
 		dict = { }
-		T = gmtime()
-		dict['timestamp'] = [T.tm_hour, T.tm_min, T.tm_sec]
+		T = time.time()
+		dict['timestamp'] = T
 		queue_incomplete_samples.append(dict)
 		
-		# print
-		print('\n'+strftime("%H:%M:%S", T)+' [n_incomplete='+str(len(queue_incomplete_samples))+']')
+		# print [debug]
 		title = (submission.title).encode('utf-8')
-		print('Title: '+str(title)+'\n')
+		print('\n'+str(title))
+		print(time.ctime(T)+' [n_incomplete='+str(len(queue_incomplete_samples))+']\n')
+
 	
 	#submission = reddit.submission(id='5yuvgo')
 	#for top_level_comment in submission.comments:
