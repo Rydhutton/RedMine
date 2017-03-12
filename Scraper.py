@@ -30,7 +30,7 @@ def StartCollectingData():
 			cct = cct+'+'
 	to_stream = reddit.subreddit(cct)
 	
-	reeval = 60.0 * 15 # 15 minutes
+	reeval = 60.0 * 15 # re-evalutate each post after 15 minutes
 	
 	for P in to_stream.stream.submissions():
 		
