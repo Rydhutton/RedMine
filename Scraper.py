@@ -13,6 +13,7 @@ from time import gmtime, strftime
 #	2) go to 'preferences'
 #	3) click on the 'apps' tab
 
+max_in_sys = 2000
 n_reevals = 5
 interval = 5 #5.0 * 60
 queues = []
@@ -72,7 +73,7 @@ def LogNewSubmissions():
 		d['CK'] = u.comment_karma
 		d['LK'] = u.link_karma
 		d['subr'] = str(P.subreddit)
-		queues[0].append(d)
-		#TODO, when queue is overflowed, stop
+		if (len(queues[0]) < max_in_sys):
+			queues[0].append(d)
 
 	
