@@ -32,10 +32,9 @@ def StartCollectingData():
 		
 	for P in to_stream.stream.submissions():
 		
-		# [harrison]create new instance for new post, put in incomplete_queue
+		# [harrison] create new instance for new post, put in incomplete_queue
 		d = { }
-		T = time.time()
-		d['timestamp'] = T
+		d['timestamp'] = time.time()
 		d['pid'] = P.id
 		queue_incomplete.append(d)
 		
@@ -45,5 +44,5 @@ def StartCollectingData():
 		# [harrison] debug
 		print('\n'+str((P.title).encode('utf-8'))+' [id='+P.id+']')
 		print(P.subreddit)
-		print(time.ctime(T))
+		print(time.ctime(time.time()))
 		print('queue lenghts = ['+str(len(queue_incomplete))+','+str(len(queue_complete))+']\n')
