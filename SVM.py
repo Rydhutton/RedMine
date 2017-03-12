@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# we are going to be using 'sklearn' for this part!!
+# [harrison] we are going to be using 'sklearn' for this part!!
 # it has a robust implementation of hundreds of machine learning algs
 #	(knn, SVMs, decision trees, bayes, etc...)
 

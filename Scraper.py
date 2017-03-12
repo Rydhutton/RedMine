@@ -4,7 +4,7 @@
 import time
 import praw
 
-# we are using "PRAW" as an API to collect reddit data
+# [harrison] we are using "PRAW" as an API to collect reddit data
 # you can install it simply by typing "pip install praw" into the terminal
 # you can see the app details (client_id/secret/etc) if you
 #	1) log in to reddit as csc475_user (pass:asdfasdf)
