@@ -60,8 +60,7 @@ def LogNewSubmissions():
 	cct = ''
 	for i in range(len(subreddits_to_monitor)):
 		cct = cct+subreddits_to_monitor[i]
-		if (i != len(subreddits_to_monitor)-1):
-			cct = cct+'+'
+		if (i != len(subreddits_to_monitor)-1): cct = cct+'+'
 	to_stream = reddit.subreddit(cct)
 	
 	# [harrison] create a new instance for every new/fresh post (this happens several times per second)
