@@ -14,14 +14,12 @@ from time import gmtime, strftime
 #	3) click on the 'apps' tab
 
 max_in_sys = 2000
-
-
 queues = []
-reddit = praw.Reddit(client_id='Er23cgYvVuqPHw', client_secret='uXfAKsBIUQ7JaR6Hy--RxQuF4eo', user_agent='CompSci474Project:v1.0.0 (by /u/csc475_user)')
 interval = 5 #5.0 * 60
 n_reevals = 5
 n_saved_to_disk = 0
 
+reddit = praw.Reddit(client_id='Er23cgYvVuqPHw', client_secret='uXfAKsBIUQ7JaR6Hy--RxQuF4eo', user_agent='CompSci474Project:v1.0.0 (by /u/csc475_user)')
 def StartCollectingData():	
 	# [harrison] Initialize threads
 	print("\n\n== Starting in data-mine mode [press Ctrl+C to stop] ==")
