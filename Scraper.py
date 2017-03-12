@@ -50,7 +50,7 @@ def LogNewSubmissions():
 			cct = cct+'+'
 	to_stream = reddit.subreddit(cct)
 	
-	# [harrison] create a new instance for every new/fresh post
+	# [harrison] create a new instance for every new/fresh post (this happens several times per second)
 	for P in to_stream.stream.submissions():
 		u = reddit.redditor(str(P.author))
 		d = { }
