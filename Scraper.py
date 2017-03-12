@@ -52,8 +52,7 @@ def ReEvaluateSubmission(thread_index):
 				#TODO op on data
 				queues[thread_index+1].append(((queues[thread_index])[0]))
 				del queues[thread_index][0]
-				if (len((queues[thread_index])) == 0):
-					break
+				if (len((queues[thread_index])) == 0): break
 		
 def LogNewSubmissions():
 	# [harrison] initialize session with PRAW
