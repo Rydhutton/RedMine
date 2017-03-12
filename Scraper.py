@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import time
+from time import gmtime, strftime
 import praw
 
 # [harrison] we are using "PRAW" as an API to collect reddit data
@@ -20,8 +20,12 @@ def StartCollectingData():
 	subreddits_to_monitor = ['AskReddit', 'funny', 'todayilearned', 'science', 'worldnews', 'pics', 'IAmA', 'gaming', 'videos', 'movies', 'Music', 'aww', 'news', 'gifs', 'explainlikeimfive', 'askscience', 'EarthPorn', 'books', 'television', 'LifeProTips', 'mildlyinteresting', 'DIY', 'Showerthoughts', 'space', 'sports', 'InternetIsBeautiful', 'tifu', 'Jokes', 'history', 'gadgets', 'food', 'nottheonion', 'photoshopbattles', 'Futurology', 'Documentaries', 'personalfinance', 'dataisbeautiful', 'GetMotivated', 'UpliftingNews', 'listentothis']
 	
 	print("Starting in data-mine mode [press Ctrl+C to stop].")
-
-	submission = reddit.submission(id='5yuvgo')
-	# iterate through top-level comments
-	for top_level_comment in submission.comments:
-		print(top_level_comment.body)
+	
+	subreddit = reddit.subreddit(subreddits_to_monitor[0])
+	for submission in subreddit.stream.submissions():
+		timestamp = strftime("%H:%M:%S", gmtime()) #%Y-%m-%d 
+		print('\t('+timestamp+')'+submission.title)
+	
+	#submission = reddit.submission(id='5yuvgo')
+	#for top_level_comment in submission.comments:
+	#	print(top_level_comment.body)
