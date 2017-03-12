@@ -23,7 +23,6 @@ n_reevals = 5
 n_saved_to_disk = 0
 
 def StartCollectingData():	
-
 	# [harrison] Initialize threads
 	print("\n\n== Starting in data-mine mode [press Ctrl+C to stop] ==")
 	for i in range(n_reevals+1): queues.append( [] )
