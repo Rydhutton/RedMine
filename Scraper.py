@@ -16,6 +16,9 @@ def StartCollectingData():
 	
 	reddit = praw.Reddit(client_id='Er23cgYvVuqPHw', client_secret='uXfAKsBIUQ7JaR6Hy--RxQuF4eo', user_agent='CompSci474Project:v1.0.0 (by /u/csc475_user)')
 	
+	# harrison is working on this as we speak
+	# please do not touch lol
+	
 	submission = reddit.submission(id='5yuvgo')
 	# iterate through top-level comments
 	for top_level_comment in submission.comments:
