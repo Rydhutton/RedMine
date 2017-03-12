@@ -40,20 +40,16 @@ def StartCollectingData():
 		time.sleep(1)
 		
 def ReEvaluateSubmission(thread_index):
-	myQueue = queues[thread_index]
 	while(True):
 		time.sleep(1.0)
-		if (len(myQueue) != 0):
+		if (len((queues[thread_index])) != 0):
 			t = time.time()
-			d = myQueue[0]
-			while(d['ts']+(interval*(thread_index+1))<t):
+			while(((queues[thread_index])[0])['ts']+(interval*(thread_index+1))<t):
 				#TODO op on data
-				queues[thread_index+1].append(d)
+				queues[thread_index+1].append(((queues[thread_index])[0]))
 				del queues[thread_index][0]
-				if (len(myQueue) == 0):
+				if (len((queues[thread_index])) == 0):
 					break
-				else:
-					d = myQueue[0]
 		
 def LogNewSubmissions():
 	# [harrison] initialize session with PRAW
