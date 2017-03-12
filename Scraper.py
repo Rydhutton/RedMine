@@ -31,6 +31,7 @@ def StartCollectingData():
 		REv_thread = threading.Thread(target=ReEvaluateSubmission, args=(i,))
 		REv_thread.daemon = True
 		REv_thread.start()
+	#TODO, a thread for saving data to text files
 	
 	t = 0
 	while True:
@@ -60,9 +61,11 @@ def LogNewSubmissions():
 		d['LK'] = u.link_karma
 		d['subr'] = str(P.subreddit)
 		queues[0].put(d)
+		#TODO, when queue is overflowed, stop
 		
 def ReEvaluateSubmission(thread_index):
 	while(True):
+		#TODO
 		time.sleep(1.0)
 		print(thread_index)
 
