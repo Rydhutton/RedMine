@@ -2,30 +2,35 @@
 # -*- coding: utf-8 -*-
 
 import threading
+import queue
 import time
 from time import gmtime, strftime
 import praw
 
-# [harrison] we are using "PRAW" as an API to collect reddit data
+# [harrison] we are using the reddit PRAW API
 # you can install it simply by typing "pip install praw" into the terminal
 # you can see the app details (client_id/secret/etc) if you
 #	1) log in to reddit as csc475_user (pass:asdfasdf)
 #	2) go to 'preferences'
 #	3) click on the 'apps' tab
 
-n_data = 0
-queue_incomplete = []
-queue_complete = []
+n_reevals = 5
+interval = 5 * 60
+queues = []
 
 def StartCollectingData():	
 
 	# [harrison]
 	print("\nStarting in data-mine mode [press Ctrl+C to stop].")
+	
+	for i in range(n_reevals):
+		queues.append( queue.Queue() )
+	
 	main_thread = threading.Thread(target=LogNewSubmissions)
 	main_thread.daemon = True
 	main_thread.start()
 	
-	for i in range(5):
+	for i in range(n_reevals):
 		REv_thread = threading.Thread(target=ReEvaluateSubmission, args=(i,))
 		REv_thread.daemon = True
 		REv_thread.start()
@@ -55,19 +60,14 @@ def LogNewSubmissions():
 	
 	# [harrison] create a new instance for every new/fresh post
 	for P in to_stream.stream.submissions():
-		u = reddit.redditor(str(P.author)) # user
-		CK = u.comment_karma
-		LK = u.link_karma
+		u = reddit.redditor(str(P.author))
 		d = { }
-		d['pid'] = P.id #book-keeping
-		d['ts'] = time.time() #book-keeping & PARAM
-		d['CK'] = CK #PARAM
-		d['LK'] = LK #PARAM
+		d['pid'] = P.id
+		d['ts'] = time.time()
+		d['CK'] = u.comment_karma
+		d['LK'] = u.link_karma
 		d['subr'] = str(P.subreddit)
-		queue_incomplete.append(d)
-		n_data += 1
-		if (n_data = 100000): break
-	return
+		queues[0].put(d)
 		
 
 	
