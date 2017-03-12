@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import queue
 import time
 from time import gmtime, strftime
 import praw
@@ -27,8 +28,10 @@ def StartCollectingData():
 			all_subreddits = all_subreddits+'+'
 	to_stream = reddit.subreddit(all_subreddits)
 	
-	queue_incomplete = []
-	queue_complete = []
+	queue_incomplete = queue.Queue()
+	n_incomplete = 0
+	queue_complete = queue.Queue()
+	n_complete = 0
 	
 	for P in to_stream.stream.submissions():
 		
@@ -36,11 +39,12 @@ def StartCollectingData():
 		dict = { }
 		T = time.time()
 		dict['timestamp'] = T
-		queue_incomplete.append(dict)
+		queue_incomplete.put(dict)
+		n_incomplete += 1
 		
 		# print [debug]
 		title = (P.title).encode('utf-8')
 		print('\n'+str(title))
 		print(P.subreddit)
 		print(time.ctime(T))
-		print('queue lenghts = ['+str(len(queue_incomplete))+','+str(len(queue_complete))+']\n')
+		print('queue lenghts = ['+str(n_incomplete)+','+str(n_complete)+']\n')
