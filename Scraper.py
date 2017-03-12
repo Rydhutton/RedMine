@@ -20,7 +20,8 @@ queues = []
 n_saved_to_disk = 0
 
 def StartCollectingData():	
-	# [harrison]
+
+	# [harrison] Initialize threads
 	print("\n\n== Starting in data-mine mode [press Ctrl+C to stop] ==")
 	for i in range(n_reevals+1): queues.append( [] )
 	main_thread = threading.Thread(target=LogNewSubmissions)
@@ -32,6 +33,7 @@ def StartCollectingData():
 		REv_thread.start()
 	#TODO, a thread for saving data to text files
 	
+	# [harrison] Control loop
 	t = 0
 	while True:
 		t += 1
