@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import threading
+import praw
 import queue
 import time
 from time import gmtime, strftime
-import praw
 
 # [harrison] we are using the reddit PRAW API
 # you can install it simply by typing "pip install praw" into the terminal
@@ -15,7 +15,7 @@ import praw
 #	3) click on the 'apps' tab
 
 n_reevals = 5
-interval = 5 * 60
+interval = 5.0 * 60
 queues = []
 
 def StartCollectingData():	
