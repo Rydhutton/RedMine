@@ -22,14 +22,11 @@ def StartCollectingData():
 
 	# [harrison]
 	print("\nStarting in data-mine mode [press Ctrl+C to stop].")
-	
 	for i in range(n_reevals):
 		queues.append( queue.Queue() )
-	
 	main_thread = threading.Thread(target=LogNewSubmissions)
 	main_thread.daemon = True
 	main_thread.start()
-	
 	for i in range(n_reevals):
 		REv_thread = threading.Thread(target=ReEvaluateSubmission, args=(i,))
 		REv_thread.daemon = True
@@ -40,12 +37,7 @@ def StartCollectingData():
 		t += 2
 		print('Time elapsed : '+str(t))
 		time.sleep(2)
-	
-def ReEvaluateSubmission(thread_index):
-	while(True):
-		time.sleep(1.0)
-		print(thread_index)
-	
+		
 def LogNewSubmissions():
 
 	# [harrison] initialize session
@@ -69,5 +61,9 @@ def LogNewSubmissions():
 		d['subr'] = str(P.subreddit)
 		queues[0].put(d)
 		
+def ReEvaluateSubmission(thread_index):
+	while(True):
+		time.sleep(1.0)
+		print(thread_index)
 
 	
