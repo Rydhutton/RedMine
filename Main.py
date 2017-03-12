@@ -11,7 +11,6 @@ Launching in different modes:
 	"py Main.py -mine"
 	"py Main.py -train"
 	"py Main.py -test"
-Note: Before a section of code, put [yourname] so that we can keep track of how much work each person is doing
 """
 
 def main():
