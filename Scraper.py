@@ -14,11 +14,13 @@ from time import gmtime, strftime
 #	3) click on the 'apps' tab
 
 max_in_sys = 2000
-n_reevals = 5
-interval = 5 #5.0 * 60
+
+
 queues = []
+reddit = praw.Reddit(client_id='Er23cgYvVuqPHw', client_secret='uXfAKsBIUQ7JaR6Hy--RxQuF4eo', user_agent='CompSci474Project:v1.0.0 (by /u/csc475_user)')
+interval = 5 #5.0 * 60
+n_reevals = 5
 n_saved_to_disk = 0
-t = 0
 
 def StartCollectingData():	
 
@@ -35,11 +37,12 @@ def StartCollectingData():
 	#TODO, a thread for saving data to text files
 	
 	# [harrison] Control loop
+	time_elapsed = 0
 	while True:
-		t += 1
+		time_elapsed += 1
 		p = ''
 		for i in range(n_reevals+1): p = p+str(len(queues[i]))+','
-		print('TimeElapsed=['+str(t)+'] ProcessingQueues=['+p+'] SavedToDisk=['+str(n_saved_to_disk)+']')
+		print('TimeElapsed=['+str(time_elapsed)+'] ProcessingQueues=['+p+'] SavedToDisk=['+str(n_saved_to_disk)+']')
 		time.sleep(1)
 		
 def ReEvaluateSubmission(thread_index):
@@ -57,7 +60,6 @@ def ReEvaluateSubmission(thread_index):
 		
 def LogNewSubmissions():
 	# [harrison] initialize session with PRAW
-	reddit = praw.Reddit(client_id='Er23cgYvVuqPHw', client_secret='uXfAKsBIUQ7JaR6Hy--RxQuF4eo', user_agent='CompSci474Project:v1.0.0 (by /u/csc475_user)')
 	subreddits_to_monitor = ['AskReddit', 'funny', 'todayilearned', 'science', 'worldnews', 'pics', 'IAmA', 'gaming', 'videos', 'movies', 'Music', 'aww', 'news', 'gifs', 'explainlikeimfive', 'askscience', 'EarthPorn', 'books', 'television', 'LifeProTips', 'mildlyinteresting', 'DIY', 'Showerthoughts', 'space', 'sports', 'InternetIsBeautiful', 'tifu', 'Jokes', 'history', 'gadgets', 'food', 'nottheonion', 'photoshopbattles', 'Futurology', 'Documentaries', 'personalfinance', 'dataisbeautiful', 'GetMotivated', 'UpliftingNews', 'listentothis']
 	cct = ''
 	for i in range(len(subreddits_to_monitor)):
