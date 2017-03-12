@@ -3,7 +3,6 @@
 
 import threading
 import praw
-import queue
 import time
 from time import gmtime, strftime
 
@@ -15,15 +14,14 @@ from time import gmtime, strftime
 #	3) click on the 'apps' tab
 
 n_reevals = 5
-interval = 5.0 * 60
+interval = 5 #5.0 * 60
 queues = []
+n_saved_to_disk = 0
 
 def StartCollectingData():	
-
 	# [harrison]
-	print("\nStarting in data-mine mode [press Ctrl+C to stop].")
-	for i in range(n_reevals):
-		queues.append( queue.Queue() )
+	print("\n\n== Starting in data-mine mode [press Ctrl+C to stop] ==")
+	for i in range(n_reevals+1): queues.append( [] )
 	main_thread = threading.Thread(target=LogNewSubmissions)
 	main_thread.daemon = True
 	main_thread.start()
@@ -35,12 +33,29 @@ def StartCollectingData():
 	
 	t = 0
 	while True:
-		t += 2
-		print('Time elapsed : '+str(t))
-		time.sleep(2)
+		t += 1
+		p = ''
+		for i in range(n_reevals+1): p = p+str(len(queues[i]))+','
+		print('TimeElapsed=['+str(t)+'] ProcessingQueues=['+p+'] SavedToDisk=['+str(n_saved_to_disk)+']')
+		time.sleep(1)
+		
+def ReEvaluateSubmission(thread_index):
+	myQueue = queues[thread_index]
+	while(True):
+		time.sleep(1.0)
+		if (len(myQueue) != 0):
+			t = time.time()
+			d = myQueue[0]
+			while(d['ts']+(interval*(thread_index+1))<t):
+				#TODO op on data
+				queues[thread_index+1].append(d)
+				del queues[thread_index][0]
+				if (len(myQueue) == 0):
+					break
+				else:
+					d = myQueue[0]
 		
 def LogNewSubmissions():
-
 	# [harrison] initialize session with PRAW
 	reddit = praw.Reddit(client_id='Er23cgYvVuqPHw', client_secret='uXfAKsBIUQ7JaR6Hy--RxQuF4eo', user_agent='CompSci474Project:v1.0.0 (by /u/csc475_user)')
 	subreddits_to_monitor = ['AskReddit', 'funny', 'todayilearned', 'science', 'worldnews', 'pics', 'IAmA', 'gaming', 'videos', 'movies', 'Music', 'aww', 'news', 'gifs', 'explainlikeimfive', 'askscience', 'EarthPorn', 'books', 'television', 'LifeProTips', 'mildlyinteresting', 'DIY', 'Showerthoughts', 'space', 'sports', 'InternetIsBeautiful', 'tifu', 'Jokes', 'history', 'gadgets', 'food', 'nottheonion', 'photoshopbattles', 'Futurology', 'Documentaries', 'personalfinance', 'dataisbeautiful', 'GetMotivated', 'UpliftingNews', 'listentothis']
@@ -49,7 +64,7 @@ def LogNewSubmissions():
 		cct = cct+subreddits_to_monitor[i]
 		if (i != len(subreddits_to_monitor)-1):
 			cct = cct+'+'
-	to_stream = reddit.subreddit(cct)
+	to_stream = reddit.subreddit('all')
 	
 	# [harrison] create a new instance for every new/fresh post (this happens several times per second)
 	for P in to_stream.stream.submissions():
@@ -60,13 +75,7 @@ def LogNewSubmissions():
 		d['CK'] = u.comment_karma
 		d['LK'] = u.link_karma
 		d['subr'] = str(P.subreddit)
-		queues[0].put(d)
+		queues[0].append(d)
 		#TODO, when queue is overflowed, stop
-		
-def ReEvaluateSubmission(thread_index):
-	while(True):
-		#TODO
-		time.sleep(1.0)
-		print(thread_index)
 
 	
