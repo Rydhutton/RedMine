@@ -21,19 +21,19 @@ n_saved_to_disk = 0
 
 reddit = praw.Reddit(client_id='Er23cgYvVuqPHw', client_secret='uXfAKsBIUQ7JaR6Hy--RxQuF4eo', user_agent='CompSci474Project:v1.0.0 (by /u/csc475_user)')
 def StartCollectingData():	
-	# [harrison] Initialize threads
+	# [harrison] start threads
 	print("\n\n== Starting in data-mine mode [press Ctrl+C to stop] ==")
 	for i in range(n_intervals+1): queues.append( [] )
 	main_thread = threading.Thread(target=LogNewSubmissions)
 	main_thread.daemon = True
 	main_thread.start()
 	for i in range(n_intervals):
-		REv_thread = threading.Thread(target=ReEvaluateSubmission, args=(i,))
+		REv_thread = threading.Thread(target=ReEvaluateSubmissions, args=(i,))
 		REv_thread.daemon = True
 		REv_thread.start()
 	#TODO, a thread for saving data to text files
 	
-	# [harrison] Control loop
+	# [harrison] control loop
 	time_elapsed = 0
 	while True:
 		time_elapsed += 1
@@ -42,7 +42,7 @@ def StartCollectingData():
 		print('TimeElapsed=['+str(time_elapsed)+'] ProcessingQueues=['+p+'] SavedToDisk=['+str(n_saved_to_disk)+']')
 		time.sleep(1)
 		
-def ReEvaluateSubmission(thread_index):
+def ReEvaluateSubmissions(thread_index):
 	# [harrison]
 	while(True):
 		time.sleep(1.0)
