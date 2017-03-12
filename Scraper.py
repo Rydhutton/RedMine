@@ -40,6 +40,7 @@ def StartCollectingData():
 		time.sleep(1)
 		
 def ReEvaluateSubmission(thread_index):
+	# [harrison]
 	while(True):
 		time.sleep(1.0)
 		if (len((queues[thread_index])) != 0):
