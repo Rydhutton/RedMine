@@ -23,13 +23,16 @@ def StartCollectingData():
 	queue_incomplete_samples = []
 	
 	for submission in subreddit.stream.submissions():
-		# log data
+		# log new posts
 		dict = { }
+		T = gmtime()
+		dict['timestamp'] = [T.tm_hour, T.tm_min, T.tm_sec]
+		queue_incomplete_samples.append(dict)
 		
 		# print
-		print('\n'+strftime("%H:%M:%S", gmtime()))
+		print('\n'+strftime("%H:%M:%S", T)+' [n_incomplete='+str(len(queue_incomplete_samples))+']')
 		title = (submission.title).encode('utf-8')
-		print('\tTitle: '+str(title)+'\n')
+		print('Title: '+str(title)+'\n')
 	
 	#submission = reddit.submission(id='5yuvgo')
 	#for top_level_comment in submission.comments:
