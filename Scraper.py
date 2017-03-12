@@ -21,10 +21,11 @@ def StartCollectingData():
 	
 	print("Starting in data-mine mode [press Ctrl+C to stop].")
 	
-	subreddit = reddit.subreddit(subreddits_to_monitor[0])
+	subreddit = reddit.subreddit('all')
 	for submission in subreddit.stream.submissions():
 		timestamp = strftime("%H:%M:%S", gmtime()) #%Y-%m-%d 
-		print('\t('+timestamp+')'+submission.title)
+		title = (submission.title).encode('utf-8')
+		print('\t('+timestamp+')'+str(title))
 	
 	#submission = reddit.submission(id='5yuvgo')
 	#for top_level_comment in submission.comments:
