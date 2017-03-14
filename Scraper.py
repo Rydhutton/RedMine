@@ -63,11 +63,18 @@ def ReEvaluateSubmissions(thread_index):
 				d['t'+pfx+'-num_gold'] = submission.gilded
 				d['t'+pfx+'-score'] = submission.score
 				
+				if (thread_index+1 == intervals):
+					if (submission.score > 2300):
+						d['label'] = ['POPULAR']
+					else:
+						d['label'] = ['failure']
+				
 				queues[thread_index+1].append(((queues[thread_index])[0]))
 				del queues[thread_index][0]
 				if (len((queues[thread_index])) == 0): break
 		
 def LogNewSubmissions():
+
 	# [harrison] initialize session with PRAW
 	cct = ''
 	for i in range(len(subreddits_to_monitor)):
