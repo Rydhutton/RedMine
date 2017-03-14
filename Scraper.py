@@ -14,10 +14,13 @@ from time import gmtime, strftime
 #	3) click on the 'apps' tab
 
 max_in_sys = 2000
-queues = []
-interval = 20 #5.0 * 60
-n_intervals = 5
 n_saved_to_disk = 0
+queues = []
+
+# CONFIGURABLE
+subreddits_to_monitor = ['AskReddit', 'funny', 'todayilearned', 'science', 'worldnews', 'pics', 'IAmA', 'gaming', 'videos', 'movies', 'Music', 'aww', 'news', 'gifs', 'explainlikeimfive', 'askscience', 'EarthPorn', 'books', 'television', 'LifeProTips', 'mildlyinteresting', 'DIY', 'Showerthoughts', 'space', 'sports', 'InternetIsBeautiful', 'tifu', 'Jokes', 'history', 'gadgets', 'food', 'nottheonion', 'photoshopbattles', 'Futurology', 'Documentaries', 'personalfinance', 'dataisbeautiful', 'GetMotivated', 'UpliftingNews', 'listentothis']
+interval = 5 # number of seconds between intervals
+n_intervals = 5
 
 reddit = praw.Reddit(client_id='Er23cgYvVuqPHw', client_secret='uXfAKsBIUQ7JaR6Hy--RxQuF4eo', user_agent='CompSci474Project:v1.0.0 (by /u/csc475_user)')
 def StartCollectingData():	
@@ -58,8 +61,7 @@ def ReEvaluateSubmissions(thread_index):
 				d['t'+pfx+'-upvotes'] = submission.ups
 				d['t'+pfx+'-downvotes'] = submission.downs
 				d['t'+pfx+'-num_gold'] = submission.gilded
-
-				if (thread_index+1 == 5): print(d)
+				d['t'+pfx+'-score'] = submission.score
 				
 				queues[thread_index+1].append(((queues[thread_index])[0]))
 				del queues[thread_index][0]
@@ -67,7 +69,6 @@ def ReEvaluateSubmissions(thread_index):
 		
 def LogNewSubmissions():
 	# [harrison] initialize session with PRAW
-	subreddits_to_monitor = ['AskReddit', 'funny', 'todayilearned', 'science', 'worldnews', 'pics', 'IAmA', 'gaming', 'videos', 'movies', 'Music', 'aww', 'news', 'gifs', 'explainlikeimfive', 'askscience', 'EarthPorn', 'books', 'television', 'LifeProTips', 'mildlyinteresting', 'DIY', 'Showerthoughts', 'space', 'sports', 'InternetIsBeautiful', 'tifu', 'Jokes', 'history', 'gadgets', 'food', 'nottheonion', 'photoshopbattles', 'Futurology', 'Documentaries', 'personalfinance', 'dataisbeautiful', 'GetMotivated', 'UpliftingNews', 'listentothis']
 	cct = ''
 	for i in range(len(subreddits_to_monitor)):
 		cct = cct+subreddits_to_monitor[i]
@@ -78,11 +79,20 @@ def LogNewSubmissions():
 	for P in to_stream.stream.submissions():
 		u = reddit.redditor(str(P.author))
 		d = { }
+		if (('imgur' in P.url) or ('i.redd.it' in P.url)):
+			d['type'] = 'image'
+		elif (('youtube' in P.url) or ('youtu.be' in P.url)):
+			d['type'] = 'video'
+		elif ('reddit' in P.url):
+			d['type'] = 'text'
+		else:
+			d['type'] = 'link'
 		d['id'] = P.id
 		d['time-posted'] = time.time()
 		d['comment-karma'] = u.comment_karma
 		d['link-karma'] = u.link_karma
 		d['subreddit'] = str(P.subreddit)
+		d['num_words'] = len(P.selftext.split())
 		if (len(queues[0]) < max_in_sys):
 			queues[0].append(d)
 
