@@ -15,7 +15,7 @@ from time import gmtime, strftime
 
 max_in_sys = 2000
 queues = []
-interval = 5 #5.0 * 60
+interval = 20 #5.0 * 60
 n_intervals = 5
 n_saved_to_disk = 0
 
@@ -43,13 +43,24 @@ def StartCollectingData():
 		time.sleep(1)
 		
 def ReEvaluateSubmissions(thread_index):
-	# [harrison]
+	# [harrison] Periodically re-evaluate posts, and build data points
 	while(True):
 		time.sleep(1.0)
 		if (len((queues[thread_index])) != 0):
 			t = time.time()
-			while(((queues[thread_index])[0])['ts']+(interval*(thread_index+1))<t):
-				#TODO op on data
+			while(((queues[thread_index])[0])['time-posted']+(interval*(thread_index+1))<t):
+				
+				d = ((queues[thread_index])[0])
+				submission = reddit.submission(d['id'])
+				pfx = str(thread_index)
+				d['t'+pfx+'-comments'] = submission.num_comments
+				d['t'+pfx+'-upvoteratio'] = submission.upvote_ratio
+				d['t'+pfx+'-upvotes'] = submission.ups
+				d['t'+pfx+'-downvotes'] = submission.downs
+				d['t'+pfx+'-num_gold'] = submission.gilded
+
+				if (thread_index+1 == 5): print(d)
+				
 				queues[thread_index+1].append(((queues[thread_index])[0]))
 				del queues[thread_index][0]
 				if (len((queues[thread_index])) == 0): break
@@ -67,11 +78,11 @@ def LogNewSubmissions():
 	for P in to_stream.stream.submissions():
 		u = reddit.redditor(str(P.author))
 		d = { }
-		d['pid'] = P.id
-		d['ts'] = time.time()
-		d['CK'] = u.comment_karma
-		d['LK'] = u.link_karma
-		d['subr'] = str(P.subreddit)
+		d['id'] = P.id
+		d['time-posted'] = time.time()
+		d['comment-karma'] = u.comment_karma
+		d['link-karma'] = u.link_karma
+		d['subreddit'] = str(P.subreddit)
 		if (len(queues[0]) < max_in_sys):
 			queues[0].append(d)
 
