@@ -58,7 +58,7 @@ def StartCollectingData():
 def ReEvaluateSubmissions(thread_index):
 	# [harrison] Periodically re-evaluate posts, and build data points
 	while(True):
-		time.sleep(60.0)
+		time.sleep(30.0)
 		if (len((queues[thread_index])) != 0):
 			t = time.time()
 			while(((queues[thread_index])[0])['time-posted']+(interval*(thread_index+1))<t):
