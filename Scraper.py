@@ -17,7 +17,7 @@ from time import gmtime, strftime
 queues = []
 
 # CONFIGURABLE
-subreddits_to_monitor = ['AskReddit', 'funny', 'todayilearned', 'science', 'worldnews', 'pics', 'IAmA', 'gaming', 'videos', 'movies', 'Music', 'aww', 'news', 'gifs', 'explainlikeimfive', 'askscience', 'EarthPorn', 'books', 'television', 'LifeProTips', 'mildlyinteresting', 'DIY', 'Showerthoughts', 'space', 'sports', 'InternetIsBeautiful', 'tifu', 'Jokes', 'history', 'gadgets', 'food', 'nottheonion', 'photoshopbattles', 'Futurology', 'Documentaries', 'personalfinance', 'dataisbeautiful', 'GetMotivated', 'UpliftingNews', 'listentothis']
+#subreddits_to_monitor = ['AskReddit', 'funny', 'todayilearned', 'science', 'worldnews', 'pics', 'IAmA', 'gaming', 'videos', 'movies', 'Music', 'aww', 'news', 'gifs', 'explainlikeimfive', 'askscience', 'EarthPorn', 'books', 'television', 'LifeProTips', 'mildlyinteresting', 'DIY', 'Showerthoughts', 'space', 'sports', 'InternetIsBeautiful', 'tifu', 'Jokes', 'history', 'gadgets', 'food', 'nottheonion', 'photoshopbattles', 'Futurology', 'Documentaries', 'personalfinance', 'dataisbeautiful', 'GetMotivated', 'UpliftingNews', 'listentothis']
 interval = 10.0*(60.0) # [10 minute intervals]
 n_intervals = 16 # 4 intervals [ie .. 0mins, 10mins, 20mins, 30mins]
 disk_save = 500 # save to disk when N complete data points are collected
@@ -87,10 +87,10 @@ def ReEvaluateSubmissions(thread_index):
 def LogNewSubmissions():
 
 	# [harrison] initialize session with PRAW
-	cct = ''
-	for i in range(len(subreddits_to_monitor)):
-		cct = cct+subreddits_to_monitor[i]
-		if (i != len(subreddits_to_monitor)-1): cct = cct+'+'
+	cct = 'all' #cct = ''
+	#for i in range(len(subreddits_to_monitor)):
+	#	cct = cct+subreddits_to_monitor[i]
+	#	if (i != len(subreddits_to_monitor)-1): cct = cct+'+'
 	to_stream = reddit.subreddit(cct)
 	
 	# [harrison] create a new instance for every new/fresh post (this happens several times per second)
