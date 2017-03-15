@@ -3,10 +3,10 @@
 
 import pickle
 
-from sklearn import tree # decision trees
-from sklearn import neighbors.KNeighborsClassifier # k-nearest-neighbors
-from sklearn import svm.SVC # support-vector machines
-from sklearn import naive_bayes.GaussianNB # naive bayes classifier
+#from sklearn import tree # decision trees
+#from sklearn import neighbors.KNeighborsClassifier # k-nearest-neighbors
+#from sklearn import svm.SVC # support-vector machines
+#from sklearn import naive_bayes.GaussianNB # naive bayes classifier
 # sklearn has so many more classifiers to test out
 
 def TrainOnData():
