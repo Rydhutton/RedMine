@@ -66,7 +66,7 @@ def ReEvaluateSubmissions(thread_index):
 				d = ((queues[thread_index])[0])
 				submission = reddit.submission(d['id'])
 				
-				if (thread_index <= 3):
+				if (thread_index <= 4):
 					pfx = str(thread_index)
 					d['t'+pfx+'-comments'] = submission.num_comments
 					d['t'+pfx+'-upvoteratio'] = submission.upvote_ratio
