@@ -58,30 +58,27 @@ def StartCollectingData():
 def ReEvaluateSubmissions(thread_index):
 	# [harrison] Periodically re-evaluate posts, and build data points
 	while(True):
-		time.sleep(1.0)
+		time.sleep(60.0)
 		if (len((queues[thread_index])) != 0):
 			t = time.time()
 			while(((queues[thread_index])[0])['time-posted']+(interval*(thread_index+1))<t):
 				
 				d = ((queues[thread_index])[0])
-				submission = reddit.submission(d['id'])
 				
-				if (thread_index <= 4):
-					pfx = str(thread_index)
-					d['t'+pfx+'-comments'] = submission.num_comments
-					d['t'+pfx+'-upvoteratio'] = submission.upvote_ratio
-					d['t'+pfx+'-upvotes'] = submission.ups
-					d['t'+pfx+'-downvotes'] = submission.downs
-					d['t'+pfx+'-num_gold'] = submission.gilded
-					d['t'+pfx+'-score'] = submission.score
-				
-				if (thread_index+1 == n_intervals):
-					d['final-score'] = submission.score
-					"""if (submission.score > 2000):
-						d['label'] = 'POPULAR'
+				if ((thread_index <= 4) or (thread_index+1 == n_intervals)):
+					submission = reddit.submission(d['id'])
+					
+					if (thread_index+1 == n_intervals):
+						d['final-score'] = submission.score
 					else:
-						d['label'] = 'failure'"""
-				
+						pfx = str(thread_index)
+						d['t'+pfx+'-comments'] = submission.num_comments
+						d['t'+pfx+'-upvoteratio'] = submission.upvote_ratio
+						d['t'+pfx+'-upvotes'] = submission.ups
+						d['t'+pfx+'-downvotes'] = submission.downs
+						d['t'+pfx+'-num_gold'] = submission.gilded
+						d['t'+pfx+'-score'] = submission.score
+
 				queues[thread_index+1].append(((queues[thread_index])[0]))
 				del queues[thread_index][0]
 				if (len((queues[thread_index])) == 0): break
