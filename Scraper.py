@@ -19,7 +19,7 @@ queues = []
 # CONFIGURABLE
 #subreddits_to_monitor = ['AskReddit', 'funny', 'todayilearned', 'science', 'worldnews', 'pics', 'IAmA', 'gaming', 'videos', 'movies', 'Music', 'aww', 'news', 'gifs', 'explainlikeimfive', 'askscience', 'EarthPorn', 'books', 'television', 'LifeProTips', 'mildlyinteresting', 'DIY', 'Showerthoughts', 'space', 'sports', 'InternetIsBeautiful', 'tifu', 'Jokes', 'history', 'gadgets', 'food', 'nottheonion', 'photoshopbattles', 'Futurology', 'Documentaries', 'personalfinance', 'dataisbeautiful', 'GetMotivated', 'UpliftingNews', 'listentothis']
 interval = 10.0*(60.0) # [10 minute intervals]
-n_intervals = 16 # 4 intervals [ie .. 0mins, 10mins, 20mins, 30mins]
+n_intervals = 12 # 4 intervals [ie .. 0mins, 10mins, 20mins, 30mins]
 disk_save = 500 # save to disk when N complete data points are collected
 
 reddit = praw.Reddit(client_id='Er23cgYvVuqPHw', client_secret='uXfAKsBIUQ7JaR6Hy--RxQuF4eo', user_agent='CompSci474Project:v1.0.0 (by /u/csc475_user)')
