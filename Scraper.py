@@ -22,7 +22,8 @@ interval = 10.0*(60.0) # [10 minute intervals]
 n_intervals = 12 # 4 intervals [ie .. 0mins, 10mins, 20mins, 30mins]
 disk_save = 500 # save to disk when N complete data points are collected
 
-reddit = praw.Reddit(client_id='Er23cgYvVuqPHw', client_secret='uXfAKsBIUQ7JaR6Hy--RxQuF4eo', user_agent='CompSci474Project:v1.0.0 (by /u/csc475_user)')
+# Er23cgYvVuqPHw/ uXfAKsBIUQ7JaR6Hy--RxQuF4eo / CompSci474Project:v1.0.0 (by /u/csc475_user)
+reddit = praw.Reddit(client_id='03NILBqkPQPvsA', client_secret='RzIoDVk16sUdHv7wJqQjcjN7-o8', user_agent='CompSci474Project2:v1.0.1 (by /u/csc475_user2)')
 def StartCollectingData():	
 	# [harrison] start threads
 	n_saved_to_disk = 0
@@ -75,10 +76,11 @@ def ReEvaluateSubmissions(thread_index):
 					d['t'+pfx+'-score'] = submission.score
 				
 				if (thread_index+1 == n_intervals):
-					if (submission.score > 2300):
-						d['label'] = ['POPULAR']
+					d['final-score'] = submission.score
+					if (submission.score > 2000):
+						d['label'] = 'POPULAR'
 					else:
-						d['label'] = ['failure']
+						d['label'] = 'failure'
 				
 				queues[thread_index+1].append(((queues[thread_index])[0]))
 				del queues[thread_index][0]

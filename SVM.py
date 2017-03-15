@@ -16,8 +16,11 @@ def TrainOnData():
 
 	# loading one of our data files (ie. data0)
 	dataPoints = pickle.load( open ('data0.pck', "rb") )
-	for D in dataPoints:
-		print(D)
+	n_pop = 0
+	n_fail = 0
+	n_oth = 0
+			
+	print(str(dataPoints[105]['t2-score']))
 	
 	print("Complete.")
 	
