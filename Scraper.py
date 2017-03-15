@@ -111,6 +111,6 @@ def LogNewSubmissions():
 		d['link-karma'] = u.link_karma
 		d['subreddit'] = str(P.subreddit)
 		d['num_words'] = len(P.selftext.split())
-		if (len(queues[0]) < 3000):
+		if (len(queues[0]) < 4000):
 			queues[0].append(d)
 
