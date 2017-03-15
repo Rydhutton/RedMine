@@ -3,6 +3,7 @@
 
 import threading
 import praw
+import pickle
 import time
 from time import gmtime, strftime
 
@@ -14,17 +15,18 @@ from time import gmtime, strftime
 #	3) click on the 'apps' tab
 
 max_in_sys = 2000
-n_saved_to_disk = 0
 queues = []
 
 # CONFIGURABLE
 subreddits_to_monitor = ['AskReddit', 'funny', 'todayilearned', 'science', 'worldnews', 'pics', 'IAmA', 'gaming', 'videos', 'movies', 'Music', 'aww', 'news', 'gifs', 'explainlikeimfive', 'askscience', 'EarthPorn', 'books', 'television', 'LifeProTips', 'mildlyinteresting', 'DIY', 'Showerthoughts', 'space', 'sports', 'InternetIsBeautiful', 'tifu', 'Jokes', 'history', 'gadgets', 'food', 'nottheonion', 'photoshopbattles', 'Futurology', 'Documentaries', 'personalfinance', 'dataisbeautiful', 'GetMotivated', 'UpliftingNews', 'listentothis']
-interval = 5 # number of seconds between intervals
+interval = 2 # number of seconds between intervals
 n_intervals = 5
+disk_save = 15 # save to disk when N complete data points are collected
 
 reddit = praw.Reddit(client_id='Er23cgYvVuqPHw', client_secret='uXfAKsBIUQ7JaR6Hy--RxQuF4eo', user_agent='CompSci474Project:v1.0.0 (by /u/csc475_user)')
 def StartCollectingData():	
 	# [harrison] start threads
+	n_saved_to_disk = 0
 	print("\n\n== Starting in data-mine mode [press Ctrl+C to stop] ==")
 	for i in range(n_intervals+1): queues.append( [] )
 	main_thread = threading.Thread(target=LogNewSubmissions)
@@ -34,15 +36,23 @@ def StartCollectingData():
 		REv_thread = threading.Thread(target=ReEvaluateSubmissions, args=(i,))
 		REv_thread.daemon = True
 		REv_thread.start()
-	#TODO, a thread for saving data to text files
 	
-	# [harrison] control loop
 	time_elapsed = 0
 	while True:
+		# [harrison] save to disk if necessary
+		if (len(queues[n_intervals]) > disk_save):
+			temp = queues[n_intervals]
+			queues[n_intervals] = []
+			f = open('data'+str(n_saved_to_disk)+'.pck',"wb")
+			pickle.dump(temp, f)
+			f.close()
+			n_saved_to_disk += 1
+		
+		# [harrison] print debug log
 		time_elapsed += 1
 		p = ''
 		for i in range(n_intervals+1): p = p+str(len(queues[i]))+','
-		print('TimeElapsed=['+str(time_elapsed)+'] ProcessingQueues=['+p+'] SavedToDisk=['+str(n_saved_to_disk)+']')
+		print('TimeElapsed=['+str(time_elapsed)+'] ProcessingQueues=['+p+'] SavedToDisk=['+str(n_saved_to_disk*disk_save)+']')
 		time.sleep(1)
 		
 def ReEvaluateSubmissions(thread_index):
@@ -63,7 +73,7 @@ def ReEvaluateSubmissions(thread_index):
 				d['t'+pfx+'-num_gold'] = submission.gilded
 				d['t'+pfx+'-score'] = submission.score
 				
-				if (thread_index+1 == intervals):
+				if (thread_index+1 == n_intervals):
 					if (submission.score > 2300):
 						d['label'] = ['POPULAR']
 					else:
@@ -103,4 +113,3 @@ def LogNewSubmissions():
 		if (len(queues[0]) < max_in_sys):
 			queues[0].append(d)
 
-	
