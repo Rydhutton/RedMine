@@ -27,8 +27,14 @@ def TrainOnData():
 	n_fail = 0
 	n_oth = 0
 	data = pickle.load( open ('GIANT_DATA.pck', "rb") )
+	n = 0
 	for D in data:
-		print(D['final-score'])
+		#print(D['final-score'])
+		if (D['final-score'] > 1300):
+			n += 1
+			
+	print(n)
+
 	print("Complete.")
 	
 def TestOnData():
