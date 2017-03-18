@@ -19,11 +19,11 @@ queues = []
 # CONFIGURABLE
 subreddits_to_monitor = ['AskReddit', 'funny', 'todayilearned', 'science', 'worldnews', 'pics', 'IAmA', 'gaming', 'videos', 'movies', 'Music', 'aww', 'news', 'gifs', 'explainlikeimfive', 'askscience', 'EarthPorn', 'books', 'television', 'LifeProTips', 'mildlyinteresting', 'DIY', 'Showerthoughts', 'space', 'sports', 'InternetIsBeautiful', 'tifu', 'Jokes', 'history', 'gadgets', 'food', 'nottheonion', 'photoshopbattles', 'Futurology', 'Documentaries', 'personalfinance', 'dataisbeautiful', 'GetMotivated', 'UpliftingNews', 'listentothis']
 interval = 10.0*(60.0) # [10 minute intervals]
-n_intervals = 30 # [ie .. 0mins, 10mins, 20mins, 30mins ... 5 hours]
+n_intervals = 6 # [0,10,20,30,40,50]
 disk_save = 500 # save to disk when N complete data points are collected
 
-# Er23cgYvVuqPHw/ uXfAKsBIUQ7JaR6Hy--RxQuF4eo / CompSci474Project:v1.0.0 (by /u/csc475_user)
-reddit = praw.Reddit(client_id='03NILBqkPQPvsA', client_secret='RzIoDVk16sUdHv7wJqQjcjN7-o8', user_agent='CompSci474Project2:v1.0.1 (by /u/csc475_user2)')
+# /  / CompSci474Project:v1.0.0 (by /u/csc475_user)
+reddit = praw.Reddit(client_id='Er23cgYvVuqPHw', client_secret='uXfAKsBIUQ7JaR6Hy--RxQuF4eo', user_agent='CompSci474Project2:v1.0.1 (by /u/csc475_user2)')
 def StartCollectingData():	
 	# [harrison] start threads
 	n_saved_to_disk = 0
@@ -64,20 +64,15 @@ def ReEvaluateSubmissions(thread_index):
 			while(((queues[thread_index])[0])['time-posted']+(interval*(thread_index+1))<t):
 				
 				d = ((queues[thread_index])[0])
+				submission = reddit.submission(d['id'])
 				
-				if ((thread_index <= 4) or (thread_index+1 == n_intervals)):
-					submission = reddit.submission(d['id'])
-					
-					if (thread_index+1 == n_intervals):
-						d['final-score'] = submission.score
-					else:
-						pfx = str(thread_index)
-						d['t'+pfx+'-comments'] = submission.num_comments
-						d['t'+pfx+'-upvoteratio'] = submission.upvote_ratio
-						d['t'+pfx+'-upvotes'] = submission.ups
-						d['t'+pfx+'-downvotes'] = submission.downs
-						d['t'+pfx+'-num_gold'] = submission.gilded
-						d['t'+pfx+'-score'] = submission.score
+				pfx = str(thread_index)
+				d['t'+pfx+'-comments'] = submission.num_comments
+				d['t'+pfx+'-upvoteratio'] = submission.upvote_ratio
+				d['t'+pfx+'-upvotes'] = submission.ups
+				d['t'+pfx+'-downvotes'] = submission.downs
+				d['t'+pfx+'-num_gold'] = submission.gilded
+				d['t'+pfx+'-score'] = submission.score
 
 				queues[thread_index+1].append(((queues[thread_index])[0]))
 				del queues[thread_index][0]

@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import threading
+import praw
 import pickle
+import time
+from time import gmtime, strftime
 
 #from sklearn import tree # decision trees
 #from sklearn import neighbors.KNeighborsClassifier # k-nearest-neighbors
@@ -9,6 +13,7 @@ import pickle
 #from sklearn import naive_bayes.GaussianNB # naive bayes classifier
 # sklearn has so many more classifiers to test out
 
+reddit = praw.Reddit(client_id='03NILBqkPQPvsA', client_secret='RzIoDVk16sUdHv7wJqQjcjN7-o8', user_agent='CompSci474Project2:v1.0.1 (by /u/csc475_user2)')
 def TrainOnData():
 
 	print("Running SVM on test data.")
@@ -22,22 +27,11 @@ def TrainOnData():
 	n_fail = 0
 	n_oth = 0
 	complete_set = []
-	for i in range(6):
-		dataPoints = pickle.load( open ('data'+str(i)+'.pck', "rb") )
+	n = 0
+	for i in range(40):
+		dataPoints = pickle.load( open ('labeled'+str(i)+'.pck', "rb") )
 		for D in dataPoints:
-			if D['final-score'] > 500:
-				n_popular+=1
-				print(D['id'])
-			else:
-				n_fail += 1
-
-			"""
-			# score greater than 2000?
-			if D['label'] == 'POPULAR':
-				n_popular+=1
-			else:
-				n_fail += 1
-			"""
+			print(D['final-score'])
 	
 	print("S="+str(n_popular)+", F="+str(n_fail)+", O="+str(n_oth))
 	print("Complete.")
