@@ -26,14 +26,9 @@ def TrainOnData():
 	n_popular = 0
 	n_fail = 0
 	n_oth = 0
-	complete_set = []
-	n = 0
-	for i in range(40):
-		dataPoints = pickle.load( open ('labeled'+str(i)+'.pck', "rb") )
-		for D in dataPoints:
-			print(D['final-score'])
-	
-	print("S="+str(n_popular)+", F="+str(n_fail)+", O="+str(n_oth))
+	data = pickle.load( open ('GIANT_DATA.pck', "rb") )
+	for D in data:
+		print(D['final-score'])
 	print("Complete.")
 	
 def TestOnData():
