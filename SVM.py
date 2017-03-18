@@ -30,7 +30,7 @@ def TrainOnData():
 	n = 0
 	for D in data:
 		#print(D['final-score'])
-		if (D['final-score'] > 1300):
+		if (D['final-score'] > 700):
 			n += 1
 			
 	print(n)
