@@ -31,7 +31,7 @@ def TrainOnData():
 	raw_data = pickle.load( open ('GIANT_DATA.pck', "rb") )
 	inputs = []
 	outputs = []
-	intervals_to_use = 1 # up to 5
+	intervals_to_use = 1 # up to 6
 	remove_noise = 19000
 	for D in raw_data:
 	
@@ -63,10 +63,10 @@ def TrainOnData():
 	
 	# [harrison] fit to a specific model
 	#model = linear_model.LinearRegression() !!!
-	model = linear_model.LogisticRegression()
+	#model = linear_model.LogisticRegression()
 	#model = GaussianNB()
 	#model = SVC() !!! (too expensive)
-	#model = KNeighborsClassifier(n_neighbors=3)
+	model = KNeighborsClassifier(n_neighbors=3)
 	#model = RandomForestClassifier(max_depth = 4)
 	#model = tree.DecisionTreeClassifier()
 	
