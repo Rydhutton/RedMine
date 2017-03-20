@@ -43,9 +43,9 @@ def TrainOnData():
 	TYPE_ENCODER.fit(post_types)
 	raw_data = pickle.load( open ('GIANT_DATA.pck', "rb") )
 	
-	# [harrison] more preprocessing
+	# [harrison] preprocessing - calculate maxes for normalization
 	max_statics = [0.0] * 3
-	max_T = [0.0] * intervals_to_use * X
+	max_T = [0.0] * intervals_to_use * 5
 	if (normalize==True):
 		for D in raw_data:
 			if (D['comment-karma'] > max_statics[0]):
@@ -54,6 +54,19 @@ def TrainOnData():
 				max_statics[1] = float(D['link-karma'])
 			if (D['num_words'] > max_statics[2]):
 				max_statics[2] = float(D['num_words'])
+			for i in range(intervals_to_use):
+				offset = (5*i)
+				pr = 't'+str(i)+'-'
+				if (D[pr+'comments'] > max_T[0+offset]):
+					max_T[0+offset] = D[pr+'comments']
+				if (D[pr+'upvotes'] > max_T[1+offset]):
+					max_T[1+offset] = D[pr+'upvotes']
+				if (D[pr+'downvotes'] > max_T[2+offset]):
+					max_T[2+offset] = D[pr+'downvotes']
+				if (D[pr+'num_gold'] > max_T[3+offset]):
+					max_T[3+offset] = D[pr+'num_gold']
+				if (D[pr+'score'] > max_T[4+offset]):
+					max_T[4+offset] = D[pr+'score']
 	
 	# [harrison] transform data into a form usable by sklearn
 	inputs = []
