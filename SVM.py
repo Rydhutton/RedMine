@@ -65,7 +65,7 @@ def TrainOnData():
 	
 	# calculate accuracy (k-fold)
 	average_acc = 0
-	k_fold_size = 500
+	k_fold_size = 100
 	n_iters = int( len(inputs) / k_fold_size )
 	for i in range(n_iters):	
 		t = i*k_fold_size
