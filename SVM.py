@@ -65,14 +65,14 @@ def TrainOnData():
 	
 	# calculate accuracy (k-fold)
 	average_acc = 0
-	k_fold_size = 100
+	k_fold_size = 500
 	n_iters = int( len(inputs) / k_fold_size )
 	for i in range(n_iters):	
-		t = i*1000
-		test_data = inputs[t:t+1000]
-		test_labels = outputs[t:t+1000]
-		train_data = inputs[0:t].copy() + inputs[t+1000:].copy()
-		train_labels = outputs[0:t].copy() + outputs[t+1000:].copy()
+		t = i*k_fold_size
+		test_data = inputs[t:t+k_fold_size]
+		test_labels = outputs[t:t+k_fold_size]
+		train_data = inputs[0:t].copy() + inputs[t+k_fold_size:].copy()
+		train_labels = outputs[0:t].copy() + outputs[t+k_fold_size:].copy()
 		model.fit(train_data, train_labels)
 		results = model.predict(test_data)
 		accuracy = accuracy_score(test_labels, results)
