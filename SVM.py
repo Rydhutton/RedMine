@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from sklearn import preprocessing
 from sklearn import linear_model
+from sklearn.neighbors import KNeighborsClassifier
+
+from sklearn.metrics import accuracy_score
+from sklearn import preprocessing
 import pickle
 import time
 from time import gmtime, strftime
@@ -23,7 +26,7 @@ def TrainOnData():
 	raw_data = pickle.load( open ('GIANT_DATA.pck', "rb") )
 	inputs = []
 	outputs = []
-	intervals_to_use = 3 # up to 5
+	intervals_to_use = 0 # up to 5
 	for D in raw_data:
 		arr = []
 		arr.append(TYPE_ENCODER.transform(D['type']))
@@ -45,11 +48,28 @@ def TrainOnData():
 			outputs.append("popular") #popular post
 		else:
 			outputs.append("not popular") #unpopular post
-			
-	# run classifier on data
-	logreg = linear_model.LogisticRegression()
-	logreg.fit(inputs, outputs)
-
+	
+	# fit classifier
+	#model = linear_model.LogisticRegression()
+	model = KNeighborsClassifier(n_neighbors=3)
+	
+	# calculate accuracy (k-fold)
+	average_acc = 0
+	k_fold_size = 1000
+	n_iters = int( len(inputs) / k_fold_size )
+	for i in range(n_iters):	
+		t = i*1000
+		test_data = inputs[t:t+1000]
+		test_labels = outputs[t:t+1000]
+		train_data = inputs[0:t].copy() + inputs[t+1000:].copy()
+		train_labels = outputs[0:t].copy() + outputs[t+1000:].copy()
+		model.fit(train_data, train_labels)
+		results = model.predict(test_data)
+		accuracy = accuracy_score(test_labels, results)
+		average_acc += accuracy
+		print(str(i) + "," + str(accuracy))
+	average_acc = average_acc / float(n_iters)
+	print("TOTAL ACCURACY = "+str(average_acc))
 	print("Complete.")
 	
 def TestOnData():
