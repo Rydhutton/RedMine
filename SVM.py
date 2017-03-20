@@ -49,7 +49,7 @@ def TrainOnData():
 		else:
 			outputs.append("not popular") #unpopular post
 	
-	# fit classifier
+	# fit to a specific model
 	#model = linear_model.LogisticRegression()
 	model = KNeighborsClassifier(n_neighbors=3)
 	
