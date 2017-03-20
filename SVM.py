@@ -12,7 +12,7 @@ from time import gmtime, strftime
 
 def TrainOnData():
 
-	print("Running SVM on test data.")
+	print("\nRunning SVM on test data.")
 
 	# [harrison] preprocessing - string attribute encoders
 	subreddits_monitored = ['AskReddit', 'funny', 'todayilearned', 'science', 'worldnews', 'pics', 'IAmA', 'gaming', 'videos', 'movies', 'Music', 'aww', 'news', 'gifs', 'explainlikeimfive', 'askscience', 'EarthPorn', 'books', 'television', 'LifeProTips', 'mildlyinteresting', 'DIY', 'Showerthoughts', 'space', 'sports', 'InternetIsBeautiful', 'tifu', 'Jokes', 'history', 'gadgets', 'food', 'nottheonion', 'photoshopbattles', 'Futurology', 'Documentaries', 'personalfinance', 'dataisbeautiful', 'GetMotivated', 'UpliftingNews', 'listentothis']
@@ -26,7 +26,7 @@ def TrainOnData():
 	raw_data = pickle.load( open ('GIANT_DATA.pck', "rb") )
 	inputs = []
 	outputs = []
-	intervals_to_use = 0 # up to 5
+	intervals_to_use = 3 # up to 5
 	for D in raw_data:
 		arr = []
 		arr.append(TYPE_ENCODER.transform(D['type']))
@@ -67,7 +67,7 @@ def TrainOnData():
 		results = model.predict(test_data)
 		accuracy = accuracy_score(test_labels, results)
 		average_acc += accuracy
-		print(str(i) + "," + str(accuracy))
+		print('fold' + str(i) + "," + str(accuracy))
 	average_acc = average_acc / float(n_iters)
 	print("TOTAL ACCURACY = "+str(average_acc))
 	print("Complete.")
