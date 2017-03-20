@@ -32,7 +32,7 @@ def TrainOnData():
 	inputs = []
 	outputs = []
 	intervals_to_use = 1 # up to 5
-	remove_noise = 18500
+	remove_noise = 19000
 	for D in raw_data:
 	
 		if (D['final-score'] > 700):
