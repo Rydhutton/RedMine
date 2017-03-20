@@ -9,6 +9,7 @@ from sklearn import tree
 
 from sklearn.ensemble import RandomForestClassifier
 
+import numpy as np
 from sklearn.metrics import accuracy_score
 from sklearn import preprocessing
 import pickle
@@ -19,6 +20,20 @@ def TrainOnData():
 
 	print("\nRunning SVM on test data.")
 
+	# [harrison] config
+	normalize = True
+	intervals_to_use = 1 # up to 6
+	remove_noise = 19000
+	k_fold_size = 10
+	
+	#model = linear_model.LinearRegression() !!!
+	#model = linear_model.LogisticRegression()
+	model = GaussianNB()
+	#model = SVC() !!! (too expensive)
+	#model = KNeighborsClassifier(n_neighbors=10)
+	#model = RandomForestClassifier(max_depth = 4)
+	#model = tree.DecisionTreeClassifier()
+	
 	# [harrison] preprocessing - string attribute encoders
 	subreddits_monitored = ['AskReddit', 'funny', 'todayilearned', 'science', 'worldnews', 'pics', 'IAmA', 'gaming', 'videos', 'movies', 'Music', 'aww', 'news', 'gifs', 'explainlikeimfive', 'askscience', 'EarthPorn', 'books', 'television', 'LifeProTips', 'mildlyinteresting', 'DIY', 'Showerthoughts', 'space', 'sports', 'InternetIsBeautiful', 'tifu', 'Jokes', 'history', 'gadgets', 'food', 'nottheonion', 'photoshopbattles', 'Futurology', 'Documentaries', 'personalfinance', 'dataisbeautiful', 'GetMotivated', 'UpliftingNews', 'listentothis']
 	SUBREDDIT_ENCODER = preprocessing.LabelEncoder()
@@ -31,8 +46,6 @@ def TrainOnData():
 	raw_data = pickle.load( open ('GIANT_DATA.pck', "rb") )
 	inputs = []
 	outputs = []
-	intervals_to_use = 1 # up to 6
-	remove_noise = 19000
 	for D in raw_data:
 	
 		if (D['final-score'] > 700):
@@ -61,18 +74,10 @@ def TrainOnData():
 			arr.append(D[pr+'score'])
 		inputs.append(arr)
 	
-	# [harrison] fit to a specific model
-	#model = linear_model.LinearRegression() !!!
-	#model = linear_model.LogisticRegression()
-	#model = GaussianNB()
-	#model = SVC() !!! (too expensive)
-	model = KNeighborsClassifier(n_neighbors=3)
-	#model = RandomForestClassifier(max_depth = 4)
-	#model = tree.DecisionTreeClassifier()
-	
+	# [harrison] more preprocessing
+		
 	# [harrison] calculate accuracy (k-fold cross validation)
 	average_acc = 0
-	k_fold_size = 10
 	n_iters = int( len(inputs) / k_fold_size )
 	for i in range(n_iters):	
 		t = i*k_fold_size
@@ -86,11 +91,6 @@ def TrainOnData():
 		average_acc += accuracy
 		print('fold' + str(i) + "," + str(accuracy))
 	average_acc = average_acc / float(n_iters)
-	
-	"""model.fit(inputs, outputs)
-	results = model.predict(inputs)
-	average_acc = accuracy_score(outputs, results)
-	"""
 	print("TOTAL ACCURACY = "+str(average_acc))
 	print("Complete.")
 
