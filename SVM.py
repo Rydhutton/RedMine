@@ -23,7 +23,7 @@ def TrainOnData():
 	raw_data = pickle.load( open ('GIANT_DATA.pck', "rb") )
 	inputs = []
 	outputs = []
-	intervals_to_use = 3 # can use up to 5
+	intervals_to_use = 3 # up to 5
 	for D in raw_data:
 		arr = []
 		arr.append(TYPE_ENCODER.transform(D['type']))
