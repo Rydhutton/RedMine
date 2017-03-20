@@ -22,17 +22,14 @@ def TrainOnData():
 
 	# [harrison] config
 	normalize = True
-	intervals_to_use = 6 # up to 6
+	intervals_to_use = 0 # up to 6
 	remove_noise = 19500
 	k_fold_size = 10
 	
-	#model = linear_model.LinearRegression() !!!
 	#model = linear_model.LogisticRegression()
-	model = GaussianNB()
-	#model = SVC() !!! (too expensive)
-	#model = KNeighborsClassifier(n_neighbors=10)
-	#model = RandomForestClassifier(max_depth = 4)
-	#model = tree.DecisionTreeClassifier()
+	#model = GaussianNB()
+	#model = KNeighborsClassifier(n_neighbors=2)
+	model = RandomForestClassifier(max_depth = 8)
 	
 	# [harrison] preprocessing - string attribute encoders
 	subreddits_monitored = ['AskReddit', 'funny', 'todayilearned', 'science', 'worldnews', 'pics', 'IAmA', 'gaming', 'videos', 'movies', 'Music', 'aww', 'news', 'gifs', 'explainlikeimfive', 'askscience', 'EarthPorn', 'books', 'television', 'LifeProTips', 'mildlyinteresting', 'DIY', 'Showerthoughts', 'space', 'sports', 'InternetIsBeautiful', 'tifu', 'Jokes', 'history', 'gadgets', 'food', 'nottheonion', 'photoshopbattles', 'Futurology', 'Documentaries', 'personalfinance', 'dataisbeautiful', 'GetMotivated', 'UpliftingNews', 'listentothis']
