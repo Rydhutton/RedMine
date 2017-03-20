@@ -21,14 +21,14 @@ def TrainOnData():
 	print("\nRunning SVM on test data.")
 
 	# [harrison] config
-	normalize = False
-	intervals_to_use = 1 # up to 6
-	remove_noise = 19000
+	normalize = True
+	intervals_to_use = 6 # up to 6
+	remove_noise = 19500
 	k_fold_size = 10
 	
 	#model = linear_model.LinearRegression() !!!
-	model = linear_model.LogisticRegression()
-	#model = GaussianNB()
+	#model = linear_model.LogisticRegression()
+	model = GaussianNB()
 	#model = SVC() !!! (too expensive)
 	#model = KNeighborsClassifier(n_neighbors=10)
 	#model = RandomForestClassifier(max_depth = 4)
