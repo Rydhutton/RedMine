@@ -41,9 +41,21 @@ def TrainOnData():
 	post_types = ['image', 'video', 'text', 'link']
 	TYPE_ENCODER = preprocessing.LabelEncoder()
 	TYPE_ENCODER.fit(post_types)
+	raw_data = pickle.load( open ('GIANT_DATA.pck', "rb") )
+	
+	# [harrison] more preprocessing
+	max_statics = [0.0] * 3
+	max_T = [0.0] * intervals_to_use * X
+	if (normalize==True):
+		for D in raw_data:
+			if (D['comment-karma'] > max_statics[0]):
+				max_statics[0] = float(D['comment-karma'])
+			if (D['link-karma'] > max_statics[1]):
+				max_statics[1] = float(D['link-karma'])
+			if (D['num_words'] > max_statics[2]):
+				max_statics[2] = float(D['num_words'])
 	
 	# [harrison] transform data into a form usable by sklearn
-	raw_data = pickle.load( open ('GIANT_DATA.pck', "rb") )
 	inputs = []
 	outputs = []
 	for D in raw_data:
@@ -73,8 +85,6 @@ def TrainOnData():
 			arr.append(D[pr+'num_gold'])
 			arr.append(D[pr+'score'])
 		inputs.append(arr)
-	
-	# [harrison] more preprocessing
 		
 	# [harrison] calculate accuracy (k-fold cross validation)
 	average_acc = 0
