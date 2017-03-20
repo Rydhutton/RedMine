@@ -11,7 +11,7 @@ def TrainOnData():
 
 	print("Running SVM on test data.")
 
-	# [harrison] preprocessing - encoders
+	# [harrison] preprocessing - string attribute encoders
 	subreddits_monitored = ['AskReddit', 'funny', 'todayilearned', 'science', 'worldnews', 'pics', 'IAmA', 'gaming', 'videos', 'movies', 'Music', 'aww', 'news', 'gifs', 'explainlikeimfive', 'askscience', 'EarthPorn', 'books', 'television', 'LifeProTips', 'mildlyinteresting', 'DIY', 'Showerthoughts', 'space', 'sports', 'InternetIsBeautiful', 'tifu', 'Jokes', 'history', 'gadgets', 'food', 'nottheonion', 'photoshopbattles', 'Futurology', 'Documentaries', 'personalfinance', 'dataisbeautiful', 'GetMotivated', 'UpliftingNews', 'listentothis']
 	SUBREDDIT_ENCODER = preprocessing.LabelEncoder()
 	SUBREDDIT_ENCODER.fit(subreddits_monitored)
