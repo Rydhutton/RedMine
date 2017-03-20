@@ -21,14 +21,14 @@ def TrainOnData():
 	print("\nRunning SVM on test data.")
 
 	# [harrison] config
-	normalize = True
+	normalize = False
 	intervals_to_use = 1 # up to 6
 	remove_noise = 19000
 	k_fold_size = 10
 	
 	#model = linear_model.LinearRegression() !!!
-	#model = linear_model.LogisticRegression()
-	model = GaussianNB()
+	model = linear_model.LogisticRegression()
+	#model = GaussianNB()
 	#model = SVC() !!! (too expensive)
 	#model = KNeighborsClassifier(n_neighbors=10)
 	#model = RandomForestClassifier(max_depth = 4)
@@ -44,9 +44,9 @@ def TrainOnData():
 	raw_data = pickle.load( open ('GIANT_DATA.pck', "rb") )
 	
 	# [harrison] preprocessing - calculate maxes for normalization
-	max_statics = [0.0] * 3
-	max_T = [0.0] * intervals_to_use * 5
-	if (normalize==True):
+	max_statics = [1.0] * 3
+	max_T = [1.0] * intervals_to_use * 5
+	if (normalize):
 		for D in raw_data:
 			if (D['comment-karma'] > max_statics[0]):
 				max_statics[0] = float(D['comment-karma'])
@@ -84,19 +84,34 @@ def TrainOnData():
 	
 		arr = []
 		arr.append(TYPE_ENCODER.transform(D['type']))
-		arr.append(D['comment-karma'])
-		arr.append(D['link-karma'])
 		arr.append(SUBREDDIT_ENCODER.transform(D['subreddit']))
-		arr.append(time.gmtime(D['time-posted']).tm_hour)
-		arr.append(D['num_words'])
+		if (normalize):
+			arr.append(D['comment-karma']/max_statics[0])
+			arr.append(D['link-karma']/max_statics[1])
+			arr.append(time.gmtime(D['time-posted']).tm_hour/24)
+			arr.append(D['num_words']/max_statics[2])
+		else:
+			arr.append(D['comment-karma'])
+			arr.append(D['link-karma'])
+			arr.append(time.gmtime(D['time-posted']).tm_hour)
+			arr.append(D['num_words'])
+		
 		for X in range(intervals_to_use):
 			pr = 't'+str(X)+'-'
-			arr.append(D[pr+'comments'])
+			offset = 5*X
 			arr.append(D[pr+'upvoteratio'])
-			arr.append(D[pr+'upvotes'])
-			arr.append(D[pr+'downvotes'])
-			arr.append(D[pr+'num_gold'])
-			arr.append(D[pr+'score'])
+			if (normalize):
+				arr.append(D[pr+'comments']/max_T[0+offset])
+				arr.append(D[pr+'upvotes']/max_T[1+offset])
+				arr.append(D[pr+'downvotes']/max_T[2+offset])
+				arr.append(D[pr+'num_gold']/max_T[3+offset])
+				arr.append(D[pr+'score']/max_T[4+offset])
+			else:
+				arr.append(D[pr+'comments'])
+				arr.append(D[pr+'upvotes'])
+				arr.append(D[pr+'downvotes'])
+				arr.append(D[pr+'num_gold'])
+				arr.append(D[pr+'score'])
 		inputs.append(arr)
 		
 	# [harrison] calculate accuracy (k-fold cross validation)
