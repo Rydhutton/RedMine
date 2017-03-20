@@ -21,8 +21,6 @@ def main():
 		Scraper.StartCollectingData()
 	elif (sys.argv[1] == "-train"):
 		SVM.TrainOnData()
-	elif (sys.argv[1] == "-test"):
-		SVM.TestOnData()
 	else:
 		print("unknown mode")
 	

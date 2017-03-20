@@ -32,7 +32,18 @@ def TrainOnData():
 	inputs = []
 	outputs = []
 	intervals_to_use = 1 # up to 5
+	remove_noise = 18500
 	for D in raw_data:
+	
+		if (D['final-score'] > 700):
+			outputs.append("popular") #popular post
+		else:
+			if (remove_noise > 0):
+				remove_noise -= 1
+				continue
+			else:
+				outputs.append("not popular") #unpopular post
+	
 		arr = []
 		arr.append(TYPE_ENCODER.transform(D['type']))
 		arr.append(D['comment-karma'])
@@ -49,12 +60,8 @@ def TrainOnData():
 			arr.append(D[pr+'num_gold'])
 			arr.append(D[pr+'score'])
 		inputs.append(arr)
-		if (D['final-score'] > 700):
-			outputs.append("popular") #popular post
-		else:
-			outputs.append("not popular") #unpopular post
 	
-	# fit to a specific model
+	# [harrison] fit to a specific model
 	#model = linear_model.LinearRegression() !!!
 	model = linear_model.LogisticRegression()
 	#model = GaussianNB()
@@ -63,9 +70,9 @@ def TrainOnData():
 	#model = RandomForestClassifier(max_depth = 4)
 	#model = tree.DecisionTreeClassifier()
 	
-	# calculate accuracy (k-fold)
+	# [harrison] calculate accuracy (k-fold cross validation)
 	average_acc = 0
-	k_fold_size = 100
+	k_fold_size = 10
 	n_iters = int( len(inputs) / k_fold_size )
 	for i in range(n_iters):	
 		t = i*k_fold_size
@@ -85,11 +92,6 @@ def TrainOnData():
 	average_acc = accuracy_score(outputs, results)
 	"""
 	print("TOTAL ACCURACY = "+str(average_acc))
-	print("Complete.")
-	
-def TestOnData():
-
-	print("Running SVM on test data.")
 	print("Complete.")
 
 
