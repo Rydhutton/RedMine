@@ -3,6 +3,11 @@
 
 from sklearn import linear_model
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.svm import SVC
+from sklearn import tree
+
+from sklearn.ensemble import RandomForestClassifier
 
 from sklearn.metrics import accuracy_score
 from sklearn import preprocessing
@@ -26,7 +31,7 @@ def TrainOnData():
 	raw_data = pickle.load( open ('GIANT_DATA.pck', "rb") )
 	inputs = []
 	outputs = []
-	intervals_to_use = 3 # up to 5
+	intervals_to_use = 1 # up to 5
 	for D in raw_data:
 		arr = []
 		arr.append(TYPE_ENCODER.transform(D['type']))
@@ -50,12 +55,17 @@ def TrainOnData():
 			outputs.append("not popular") #unpopular post
 	
 	# fit to a specific model
-	#model = linear_model.LogisticRegression()
-	model = KNeighborsClassifier(n_neighbors=3)
+	#model = linear_model.LinearRegression() !!!
+	model = linear_model.LogisticRegression()
+	#model = GaussianNB()
+	#model = SVC() !!! (too expensive)
+	#model = KNeighborsClassifier(n_neighbors=3)
+	#model = RandomForestClassifier(max_depth = 4)
+	#model = tree.DecisionTreeClassifier()
 	
 	# calculate accuracy (k-fold)
 	average_acc = 0
-	k_fold_size = 1000
+	k_fold_size = 100
 	n_iters = int( len(inputs) / k_fold_size )
 	for i in range(n_iters):	
 		t = i*1000
@@ -69,6 +79,11 @@ def TrainOnData():
 		average_acc += accuracy
 		print('fold' + str(i) + "," + str(accuracy))
 	average_acc = average_acc / float(n_iters)
+	
+	"""model.fit(inputs, outputs)
+	results = model.predict(inputs)
+	average_acc = accuracy_score(outputs, results)
+	"""
 	print("TOTAL ACCURACY = "+str(average_acc))
 	print("Complete.")
 	
